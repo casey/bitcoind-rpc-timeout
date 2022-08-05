@@ -47,7 +47,7 @@ fn main() {
   let (user, pass) = cookie.split_once(':').unwrap();
 
   let client = Client::simple_http(
-    &format!("http://localhost:{port}"),
+    &format!("localhost:{port}"),
     Some(user.into()),
     Some(pass.into()),
   )
