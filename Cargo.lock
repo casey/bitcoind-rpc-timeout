@@ -13,15 +13,15 @@ dependencies = [
 
 [[package]]
 name = "bech32"
-version = "0.7.3"
+version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2dabbe35f96fb9507f7330793dc490461b2962659ac5d427181e451a623751d1"
+checksum = "cf9ff0bbfd639f15c74af777d81383cf53efb7c93613f6cab67c6c11e05bbf8b"
 
 [[package]]
 name = "bitcoin"
-version = "0.26.2"
+version = "0.28.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6742ec672d3f12506f4ac5c0d853926ff1f94e675f60ffd3224039972bf663f1"
+checksum = "05bba324e6baf655b882df672453dbbc527bc938cadd27750ae510aaccc3a66a"
 dependencies = [
  "bech32",
  "bitcoin_hashes",
@@ -31,16 +31,16 @@ dependencies = [
 
 [[package]]
 name = "bitcoin_hashes"
-version = "0.9.7"
+version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7ce18265ec2324ad075345d5814fbeed4f41f0a660055dc78840b74d19b874b1"
+checksum = "006cc91e1a1d99819bc5b8214be3555c1f0611b169f527a1fdc54ed1f2b745b0"
 dependencies = [
  "serde",
 ]
 
 [[package]]
 name = "bitcoincore-rpc"
-version = "0.13.0"
+version = "0.15.0"
 dependencies = [
  "bitcoincore-rpc-json",
  "jsonrpc",
@@ -51,7 +51,7 @@ dependencies = [
 
 [[package]]
 name = "bitcoincore-rpc-json"
-version = "0.13.0"
+version = "0.15.0"
 dependencies = [
  "bitcoin",
  "serde",
@@ -136,9 +136,9 @@ checksum = "4501abdff3ae82a1c1b477a17252eb69cee9e66eb915c1abaa4f44d873df9f09"
 
 [[package]]
 name = "secp256k1"
-version = "0.20.3"
+version = "0.22.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "97d03ceae636d0fed5bae6a7f4f664354c5f4fcedf6eef053fef17e49f837d0a"
+checksum = "26947345339603ae8395f68e2f3d85a6b0a8ddfe6315818e80b8504415099db0"
 dependencies = [
  "secp256k1-sys",
  "serde",
@@ -146,9 +146,9 @@ dependencies = [
 
 [[package]]
 name = "secp256k1-sys"
-version = "0.4.2"
+version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "957da2573cde917463ece3570eab4a0b3f19de6f1646cde62e6fd3868f566036"
+checksum = "152e20a0fd0519390fc43ab404663af8a0b794273d2a91d60ad4a39f13ffe110"
 dependencies = [
  "cc",
 ]
