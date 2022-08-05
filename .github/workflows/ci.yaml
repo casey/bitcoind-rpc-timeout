@@ -16,10 +16,13 @@ jobs:
   all:
     name: All
 
-    runs-on: macos-latest
+    strategy:
+      matrix:
+        os:
+        - ubuntu-latest
+        - macos-latest
 
-    env:
-      RUSTFLAGS: --deny warnings
+    runs-on: ${{matrix.os}}
 
     steps:
     - uses: actions/checkout@v2
