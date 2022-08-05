@@ -1,3 +1,0 @@
-[submodule "rust-bitcoincore-rpc"]
-	path = rust-bitcoincore-rpc
-	url = https://github.com/rust-bitcoin/rust-bitcoincore-rpc.git

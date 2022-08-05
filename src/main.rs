@@ -1,14 +1,15 @@
-use {
-  bitcoincore_rpc::{Auth, Client, RpcApi},
-  std::{
-    fs,
-    net::TcpListener,
-    path::Path,
-    process::{Child, Command},
-    thread,
-    time::Duration,
-  },
+use std::{
+  fs,
+  net::TcpListener,
+  path::Path,
+  process::{Child, Command},
+  thread,
+  time::Duration,
 };
+
+use jsonrpc::Client;
+
+use serde_json::value::RawValue;
 
 struct Kill(Child);
 
@@ -41,14 +42,20 @@ fn main() {
     thread::sleep(Duration::from_millis(100));
   }
 
-  let client = Client::new(
+  let cookie = fs::read_to_string(cookie_file).unwrap();
+
+  let (user, pass) = cookie.split_once(':').unwrap();
+
+  let client = Client::simple_http(
     &format!("http://localhost:{port}"),
-    Auth::CookieFile(cookie_file.into()),
+    Some(user.into()),
+    Some(pass.into()),
   )
   .unwrap();
 
   for attempt in 0..=300 {
-    match client.get_blockchain_info() {
+    let request = client.build_request("getblockchaininfo", &[]);
+    match client.send_request(request) {
       Ok(_) => break,
       Err(err) => {
         if attempt == 300 {
@@ -59,10 +66,16 @@ fn main() {
     thread::sleep(Duration::from_millis(100));
   }
 
-  for i in 0..10000 {
+  let hash = RawValue::from_string(
+    "\"000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f\"".into(),
+  )
+  .unwrap();
+
+  for i in 0..20000 {
     eprintln!("getting block {i}…");
-    let hash = client.get_block_hash(0).unwrap();
-    client.get_block(&hash).unwrap();
+    let args = &[hash.clone()];
+    let request = client.build_request("getblock", args);
+    client.send_request(request).unwrap();
   }
 
   drop(child);
