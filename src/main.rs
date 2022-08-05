@@ -1,15 +1,16 @@
-use std::{
-  fs,
-  net::TcpListener,
-  path::Path,
-  process::{Child, Command},
-  thread,
-  time::Duration,
+use {
+  jsonrpc::Client,
+  serde_json::value::RawValue,
+  std::{
+    fs,
+    net::TcpListener,
+    path::Path,
+    process::{Child, Command},
+    thread,
+    time::Duration,
+  },
+  tempfile::TempDir,
 };
-
-use jsonrpc::Client;
-
-use serde_json::value::RawValue;
 
 struct Kill(Child);
 
@@ -26,16 +27,20 @@ fn main() {
     .unwrap()
     .port();
 
-  fs::remove_dir_all("regtest").ok();
+  let tempdir = TempDir::new().unwrap();
 
   let child = Kill(
     Command::new("bitcoind")
-      .args(&["-regtest", "-datadir=.", &format!("-rpcport={port}")])
+      .args(&[
+        "-regtest",
+        &format!("-datadir={}", tempdir.path().to_str().unwrap()),
+        &format!("-rpcport={port}"),
+      ])
       .spawn()
       .unwrap(),
   );
 
-  let cookie_file = Path::new("regtest/.cookie");
+  let cookie_file = tempdir.path().join("regtest/.cookie");
 
   while !cookie_file.exists() {
     eprintln!("Waiting for cookie file…");
